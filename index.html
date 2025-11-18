@@ -1,0 +1,2747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patrick Jewelry Co. | Luxury Jewelry & Fine Accessories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --light-gold: #F5E8C8;
+            --dark-gold: #B8860B;
+            --white: #FFFFFF;
+            --off-white: #F9F6F0;
+            --black: #1A1A1A;
+            --dark-gray: #2D2D2D;
+            --gray: #6C6C6C;
+            --light-gray: #E5E5E5;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.2s ease;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --border-radius: 4px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--black);
+            background-color: var(--off-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-weight: 400;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: 0.5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-fast);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 13px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: var(--transition);
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--dark-gold);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gold);
+            color: var(--black);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gold);
+            color: var(--black);
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-title {
+            font-size: 42px;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background-color: var(--gold);
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 25px auto 0;
+            font-size: 16px;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: 80vh;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+        }
+
+        .loading-logo span {
+            color: var(--gold);
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-bar:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 40%;
+            background-color: var(--gold);
+            animation: loading 1.5s infinite ease-in-out;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .logo:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--gold);
+            transform: scaleX(0);
+            transition: var(--transition);
+            transform-origin: right;
+        }
+
+        .logo:hover:after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 30px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            border-color: var(--gold);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .header-actions a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .header-actions a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--gold);
+            transition: var(--transition);
+        }
+
+        .header-actions a:hover {
+            color: var(--gold);
+        }
+
+        .header-actions a:hover:after {
+            width: 100%;
+        }
+
+        .cart-count {
+            background-color: var(--gold);
+            color: var(--black);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        nav {
+            padding: 20px 0;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--gold);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            box-shadow: var(--shadow-heavy);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .nav-links li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown li {
+            padding: 0;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--light-gray);
+            text-transform: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--black);
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 90vh;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--black);
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            padding: 0 80px;
+            color: var(--white);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 1s ease 0.5s;
+        }
+
+        .hero-slide.active .hero-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            margin-bottom: 25px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 500px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        .hero-indicators {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .indicator.active {
+            background-color: var(--white);
+            transform: scale(1.2);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Services Slider */
+        .services-slider {
+            background-color: var(--white);
+            padding: 80px 0;
+        }
+
+        .services-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .services-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .service-slide {
+            min-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .service-content {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .service-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--black);
+        }
+
+        .service-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: var(--gray);
+        }
+
+        .service-image {
+            flex: 1;
+            height: 400px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .services-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 15px;
+        }
+
+        .service-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .service-dot.active {
+            background-color: var(--gold);
+            transform: scale(1.2);
+        }
+
+        /* Categories Section */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .category-card {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+        }
+
+        .category-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-img {
+            transform: scale(1.08);
+        }
+
+        .category-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: var(--white);
+            transform: translateY(10px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .category-title {
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .category-desc {
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        /* Featured Products */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .product-img-container {
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .product-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-actions {
+            transform: translateY(0);
+        }
+
+        .product-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--white);
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            transition: var(--transition);
+        }
+
+        .product-action-btn:hover {
+            background-color: var(--gold);
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .product-rating {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* Luxury Banner */
+        .luxury-banner {
+            height: 500px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .luxury-banner-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .luxury-banner h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .luxury-banner p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Cart Page */
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cart-items {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            padding: 25px;
+            border-bottom: 1px solid var(--light-gray);
+            align-items: center;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-right: 25px;
+            border-radius: var(--border-radius);
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-price {
+            font-size: 18px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            background-color: var(--light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background-color: var(--gold);
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 35px;
+            text-align: center;
+            border: 1px solid var(--light-gray);
+            border-left: none;
+            border-right: none;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cart-item-remove:hover {
+            color: #e74c3c;
+        }
+
+        .cart-summary {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+        }
+
+        .cart-totals {
+            margin-bottom: 25px;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .cart-total-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-cart i {
+            font-size: 80px;
+            color: var(--light-gray);
+            margin-bottom: 20px;
+        }
+
+        .empty-cart h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background-color: var(--dark-gray);
+            padding: 80px 0;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .newsletter-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .newsletter h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .newsletter p {
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            font-size: 16px;
+            border-right: none;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .newsletter-form .btn {
+            border-radius: 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 80px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-size: 22px;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--gold);
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            font-size: 15px;
+            position: relative;
+        }
+
+        .footer-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--gold);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+            padding-left: 10px;
+        }
+
+        .footer-links a:hover:after {
+            width: 100%;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-3px);
+        }
+
+        .contact-info-footer {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-info-footer li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .contact-info-footer i {
+            margin-right: 15px;
+            color: var(--gold);
+            margin-top: 3px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* NEW: Advanced Features */
+
+        /* Quick View Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            max-width: 1000px;
+            margin: 50px auto;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--black);
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--gold);
+        }
+
+        .modal-body {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .modal-image {
+            flex: 1;
+            min-width: 300px;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-details {
+            flex: 1;
+            min-width: 300px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .modal-price {
+            font-size: 24px;
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .modal-description {
+            margin-bottom: 30px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .modal-options {
+            margin-bottom: 30px;
+        }
+
+        .option-group {
+            margin-bottom: 20px;
+        }
+
+        .option-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .option-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            background-color: var(--white);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Wishlist */
+        .wishlist-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--gray);
+        }
+
+        .wishlist-btn.active {
+            color: #e74c3c;
+        }
+
+        .wishlist-btn:hover {
+            color: #e74c3c;
+        }
+
+        /* Product Filters */
+        .filters-sidebar {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+        }
+
+        .filter-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-option input {
+            margin: 0;
+        }
+
+        .filter-option label {
+            cursor: pointer;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .price-input {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+
+        /* Product Comparison */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .comparison-table th {
+            background-color: var(--off-white);
+            font-weight: 600;
+        }
+
+        .comparison-product {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .comparison-product img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+        }
+
+        /* Advanced Search */
+        .advanced-search {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: var(--shadow-heavy);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: var(--transition);
+        }
+
+        .search-bar:focus-within .advanced-search {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .search-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-category {
+            padding: 8px 15px;
+            background-color: var(--off-white);
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-category:hover,
+        .search-category.active {
+            background-color: var(--gold);
+            color: var(--black);
+        }
+
+        .search-filters {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1200px) {
+            .categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .section {
+                padding: 80px 0;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+            
+            .service-slide {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .service-content {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+            
+            .service-image {
+                width: 100%;
+            }
+
+            .modal-body {
+                flex-direction: column;
+            }
+
+            .modal-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 15px;
+            }
+            
+            .header-top {
+                flex-wrap: wrap;
+                padding: 15px 0;
+            }
+            
+            .logo {
+                font-size: 28px;
+            }
+            
+            .search-bar {
+                order: 3;
+                max-width: 100%;
+                margin: 15px 0 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                gap: 0;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                width: 100%;
+                padding: 10px 0;
+                border-bottom: 1px solid var(--light-gray);
+            }
+            
+            .nav-links li:last-child {
+                border-bottom: none;
+            }
+            
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 20px;
+                display: none;
+                background: transparent;
+            }
+            
+            .nav-links li:hover .dropdown {
+                display: block;
+            }
+            
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero-content {
+                padding: 0 30px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .hero-btns .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-card {
+                height: 350px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .luxury-banner {
+                height: 400px;
+                background-attachment: scroll;
+            }
+            
+            .luxury-banner h2 {
+                font-size: 36px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input {
+                border-right: 1px solid rgba(255, 255, 255, 0.2);
+                border-bottom: none;
+                margin-bottom: 10px;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .cart-item-image {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .search-filters {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .luxury-banner h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">Patrick <span>Jewelry Co.</span></div>
+        <div class="loading-bar"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="header-top">
+                <a href="#" class="logo" data-page="home">Patrick <span>Jewelry Co.</span></a>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for jewelry, gemstones, gifts...">
+                    <i class="fas fa-search"></i>
+                    
+                    <!-- Advanced Search -->
+                    <div class="advanced-search">
+                        <div class="search-categories">
+                            <div class="search-category active">All</div>
+                            <div class="search-category">Necklaces</div>
+                            <div class="search-category">Bracelets</div>
+                            <div class="search-category">Earrings</div>
+                            <div class="search-category">Rings</div>
+                            <div class="search-category">Men's</div>
+                        </div>
+                        
+                        <div class="search-filters">
+                            <div class="filter-group">
+                                <h4>Price Range</h4>
+                                <div class="price-range">
+                                    <input type="number" class="price-input" placeholder="Min">
+                                    <span>-</span>
+                                    <input type="number" class="price-input" placeholder="Max">
+                                </div>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <h4>Material</h4>
+                                <div class="filter-options">
+                                    <div class="filter-option">
+                                        <input type="checkbox" id="gold">
+                                        <label for="gold">Gold</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" id="silver">
+                                        <label for="silver">Silver</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" id="platinum">
+                                        <label for="platinum">Platinum</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <h4>Gemstone</h4>
+                                <div class="filter-options">
+                                    <div class="filter-option">
+                                        <input type="checkbox" id="diamond">
+                                        <label for="diamond">Diamond</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" id="emerald">
+                                        <label for="emerald">Emerald</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" id="sapphire">
+                                        <label for="sapphire">Sapphire</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <a href="#" data-page="account"><i class="far fa-user"></i> Account</a>
+                    <a href="#" data-page="wishlist"><i class="far fa-heart"></i> Wishlist</a>
+                    <a href="#" class="cart-link" data-page="cart">
+                        <i class="fas fa-shopping-bag"></i> Cart
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#" data-page="home">Home</a></li>
+                    <li>
+                        <a href="#" data-page="shop">Shop <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="#" data-page="necklaces">Necklaces</a></li>
+                            <li><a href="#" data-page="bracelets">Bracelets</a></li>
+                            <li><a href="#" data-page="earrings">Earrings</a></li>
+                            <li><a href="#" data-page="rings">Rings</a></li>
+                            <li><a href="#" data-page="mens-jewelry">Men's Jewelry</a></li>
+                            <li><a href="#" data-page="luxury-sets">Luxury Sets</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" data-page="new-arrivals">New Arrivals</a></li>
+                    <li><a href="#" data-page="collections">Collections</a></li>
+                    <li><a href="#" data-page="about">About Us</a></li>
+                    <li><a href="#" data-page="contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <section id="home" class="page-section active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')">
+                <div class="hero-content">
+                    <h1>Timeless Elegance, Crafted to Perfection</h1>
+                    <p>Discover our exclusive collection of handcrafted jewelry, where each piece tells a story of luxury, craftsmanship, and enduring beauty.</p>
+                    <div class="hero-btns">
+                        <a href="#" class="btn" data-page="shop">Explore Collection</a>
+                        <a href="#" class="btn btn-outline" data-page="new-arrivals">New Arrivals</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://www.icebox.com/themes/default/frontend/oct-2023/assets/avif/home-women.avif')">
+                <div class="hero-content">
+                    <h1>Summer Collection 2023</h1>
+                    <p>Embrace the warmth with our radiant summer jewelry collection, featuring vibrant gemstones and delicate designs inspired by the season.</p>
+                    <div class="hero-btns">
+                        <a href="#" class="btn" data-page="new-arrivals">Discover Now</a>
+                        <a href="#" class="btn btn-outline" data-page="collections">View Collections</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-indicators">
+                <div class="indicator active"></div>
+                <div class="indicator"></div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <span>Scroll</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Services Slider -->
+        <section class="services-slider">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Our Premium Services</h2>
+                    <p class="section-subtitle">Experience the exceptional services that make Patrick Jewelry Co. truly special</p>
+                </div>
+                
+                <div class="services-container">
+                    <div class="services-track">
+                        <div class="service-slide active">
+                            <div class="service-content">
+                                <h2>Custom Jewelry Design</h2>
+                                <p>Bring your vision to life with our bespoke jewelry design service. Our master artisans will work closely with you to create a one-of-a-kind piece that perfectly captures your style and story.</p>
+                                <a href="#" class="btn" data-page="contact">Start Your Design</a>
+                            </div>
+                            <div class="service-image">
+                                <img src="https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_1.webp" alt="Custom Jewelry Design">
+                            </div>
+                        </div>
+                        
+                        <div class="service-slide">
+                            <div class="service-content">
+                                <h2>Professional Jewelry Cleaning</h2>
+                                <p>Restore the brilliance of your precious jewelry with our professional cleaning service. Using specialized techniques and solutions, we'll make your pieces sparkle like new.</p>
+                                <a href="#" class="btn" data-page="contact">Schedule Cleaning</a>
+                            </div>
+                            <div class="service-image">
+                                <img src="https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_3.webp" alt="Jewelry Cleaning">
+                            </div>
+                        </div>
+                        
+                        <div class="service-slide">
+                            <div class="service-content">
+                                <h2>Jewelry Repair & Restoration</h2>
+                                <p>Trust our skilled craftsmen to repair and restore your cherished jewelry pieces. From ring resizing to stone replacement, we handle all repairs with precision and care.</p>
+                                <a href="#" class="btn" data-page="contact">Request Repair</a>
+                            </div>
+                            <div class="service-image">
+                                <img src="https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_4.webp" alt="Jewelry Repair">
+                            </div>
+                        </div>
+                        
+                        <div class="service-slide">
+                            <div class="service-content">
+                                <h2>Lifetime Warranty</h2>
+                                <p>All our jewelry comes with a comprehensive lifetime warranty, covering manufacturing defects and ensuring your investment is protected for generations to come.</p>
+                                <a href="#" class="btn" data-page="about">Learn More</a>
+                            </div>
+                            <div class="service-image">
+                                <img src="https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_5.webp" alt="Lifetime Warranty">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="services-nav">
+                        <div class="service-dot active"></div>
+                        <div class="service-dot"></div>
+                        <div class="service-dot"></div>
+                        <div class="service-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Our Collections</h2>
+                    <p class="section-subtitle">Explore our carefully curated jewelry categories, each designed to celebrate life's precious moments</p>
+                </div>
+                
+                <div class="categories">
+                    <div class="category-card">
+                        <img src="https://www.icebox.com/themes/default/frontend/oct-2023/assets/banners/result_banner-necklaces.webp" alt="Necklaces" class="category-img">
+                        <div class="category-content">
+                            <h3 class="category-title">Necklaces</h3>
+                            <p class="category-desc">From delicate chains to statement pieces</p>
+                            <a href="#" class="btn btn-outline" data-page="necklaces">Explore</a>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <img src="https://www.icebox.com/themes/default/frontend/oct-2023/assets/avif/tab-bracelets.avif" alt="Bracelets" class="category-img">
+                        <div class="category-content">
+                            <h3 class="category-title">Bracelets</h3>
+                            <p class="category-desc">Elegant cuffs, bangles, and chain bracelets</p>
+                            <a href="#" class="btn btn-outline" data-page="bracelets">Explore</a>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <img src="https://www.icebox.com/themes/default/frontend/oct-2023/assets/avif/tab-earrings.avif" alt="Earrings" class="category-img">
+                        <div class="category-content">
+                            <h3 class="category-title">Earrings</h3>
+                            <p class="category-desc">Studs, hoops, drops, and climbers</p>
+                            <a href="#" class="btn btn-outline" data-page="earrings">Explore</a>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <img src="https://www.icebox.com/themes/default/frontend/oct-2023/assets/avif/tab-rings.avif" alt="Rings" class="category-img">
+                        <div class="category-content">
+                            <h3 class="category-title">Rings</h3>
+                            <p class="category-desc">Engagement, wedding, and fashion rings</p>
+                            <a href="#" class="btn btn-outline" data-page="rings">Explore</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="section" style="background-color: var(--white);">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Collection</h2>
+                    <p class="section-subtitle">Our most exquisite and sought-after pieces, crafted with precision and passion</p>
+                </div>
+                
+                <div class="products-grid" id="featured-products">
+                    <!-- Featured products will be loaded here -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="#" class="btn" data-page="shop">View All Products</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Luxury Banner -->
+        <section class="luxury-banner">
+            <div class="luxury-banner-content">
+                <h2>Artisan Crafted Excellence</h2>
+                <p>Each piece in our collection is meticulously handcrafted by skilled artisans, combining traditional techniques with contemporary design.</p>
+                <a href="#" class="btn btn-outline" data-page="about">Our Story</a>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>Join Our Exclusive Community</h2>
+                    <p>Subscribe to receive updates on new collections, special offers, and insider events.</p>
+                    
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Cart Page -->
+    <section id="cart" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Your Shopping Cart</h2>
+                    <p class="section-subtitle">Review your selected items and proceed to checkout</p>
+                </div>
+                
+                <div class="cart-container">
+                    <div class="cart-items" id="cart-items">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <div class="cart-totals">
+                            <div class="cart-total-row">
+                                <span>Subtotal</span>
+                                <span id="cart-subtotal">$0.00</span>
+                            </div>
+                            <div class="cart-total-row">
+                                <span>Shipping</span>
+                                <span id="cart-shipping">$0.00</span>
+                            </div>
+                            <div class="cart-total-row">
+                                <span>Tax</span>
+                                <span id="cart-tax">$0.00</span>
+                            </div>
+                            <div class="cart-total-row">
+                                <span>Total</span>
+                                <span id="cart-total">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="btn" style="width: 100%;">Proceed to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Page -->
+    <section id="shop" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Shop All Jewelry</h2>
+                    <p class="section-subtitle">Discover our complete collection of luxury jewelry pieces</p>
+                </div>
+                
+                <div class="products-grid" id="shop-products">
+                    <!-- Shop products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Category Pages -->
+    <section id="necklaces" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Necklaces</h2>
+                    <p class="section-subtitle">From delicate chains to statement pieces, find the perfect necklace for any occasion</p>
+                </div>
+                
+                <div class="products-grid" id="necklaces-products">
+                    <!-- Necklace products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bracelets" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Bracelets</h2>
+                    <p class="section-subtitle">Elegant cuffs, bangles, and chain bracelets to adorn your wrist</p>
+                </div>
+                
+                <div class="products-grid" id="bracelets-products">
+                    <!-- Bracelet products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="earrings" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Earrings</h2>
+                    <p class="section-subtitle">Studs, hoops, drops, and climbers to frame your face with elegance</p>
+                </div>
+                
+                <div class="products-grid" id="earrings-products">
+                    <!-- Earring products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rings" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Rings</h2>
+                    <p class="section-subtitle">Engagement, wedding, and fashion rings to complete your look</p>
+                </div>
+                
+                <div class="products-grid" id="rings-products">
+                    <!-- Ring products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mens-jewelry" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Men's Jewelry</h2>
+                    <p class="section-subtitle">Sophisticated pieces designed for the modern gentleman</p>
+                </div>
+                
+                <div class="products-grid" id="mens-jewelry-products">
+                    <!-- Men's jewelry products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="luxury-sets" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Luxury Sets</h2>
+                    <p class="section-subtitle">Curated jewelry sets for a complete and coordinated look</p>
+                </div>
+                
+                <div class="products-grid" id="luxury-sets-products">
+                    <!-- Luxury set products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals Page -->
+    <section id="new-arrivals" class="page-section">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">New Arrivals</h2>
+                    <p class="section-subtitle">Be the first to discover our latest jewelry creations</p>
+                </div>
+                
+                <div class="products-grid" id="new-arrivals-products">
+                    <!-- New arrival products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Patrick Jewelry Co.</h3>
+                    <p>Creating exquisite jewelry pieces since 2010. Our commitment to quality and craftsmanship ensures every piece tells a story of elegance and timeless beauty.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="necklaces">Necklaces</a></li>
+                        <li><a href="#" data-page="bracelets">Bracelets</a></li>
+                        <li><a href="#" data-page="earrings">Earrings</a></li>
+                        <li><a href="#" data-page="rings">Rings</a></li>
+                        <li><a href="#" data-page="mens-jewelry">Men's Jewelry</a></li>
+                        <li><a href="#" data-page="luxury-sets">Luxury Sets</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="contact">Contact Us</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Jewelry Care</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Warranty</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <ul class="contact-info-footer">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Luxury Avenue, New York, NY 10001</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@patrickjewelryco.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9AM-6PM EST</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Patrick Jewelry Co. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quick View Modal -->
+    <div class="modal" id="quickViewModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="" alt="" id="modalProductImage">
+                </div>
+                <div class="modal-details">
+                    <h2 class="modal-title" id="modalProductTitle"></h2>
+                    <p class="modal-price" id="modalProductPrice"></p>
+                    <p class="modal-description" id="modalProductDescription"></p>
+                    
+                    <div class="modal-options">
+                        <div class="option-group">
+                            <label class="option-label">Material</label>
+                            <select class="option-select" id="materialSelect">
+                                <option value="gold">Gold</option>
+                                <option value="silver">Silver</option>
+                                <option value="platinum">Platinum</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label class="option-label">Size</label>
+                            <select class="option-select" id="sizeSelect">
+                                <option value="small">Small</option>
+                                <option value="medium">Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn" id="modalAddToCart">Add to Cart</button>
+                        <button class="wishlist-btn" id="modalWishlist">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('patrickJewelryCart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('patrickJewelryWishlist')) || [];
+        
+        // Update cart count
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+        
+        // Update cart page
+        function updateCartPage() {
+            const cartItems = document.getElementById('cart-items');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+            const cartShipping = document.getElementById('cart-shipping');
+            const cartTax = document.getElementById('cart-tax');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>Your cart is empty</h3>
+                        <p>Add some beautiful jewelry to your cart</p>
+                        <a href="#" class="btn" data-page="shop">Start Shopping</a>
+                    </div>
+                `;
+                cartSubtotal.textContent = '$0.00';
+                cartShipping.textContent = '$0.00';
+                cartTax.textContent = '$0.00';
+                cartTotal.textContent = '$0.00';
+                return;
+            }
+            
+            let subtotal = 0;
+            let html = '';
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h3 class="cart-item-title">${item.name}</h3>
+                            <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn" onclick="updateCartItemQuantity(${index}, ${item.quantity - 1})">-</button>
+                                <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                                <button class="quantity-btn" onclick="updateCartItemQuantity(${index}, ${item.quantity + 1})">+</button>
+                            </div>
+                            <button class="cart-item-remove" onclick="removeFromCart(${index})">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const shipping = subtotal > 0 ? 15.00 : 0;
+            const tax = subtotal * 0.08;
+            const total = subtotal + shipping + tax;
+            
+            cartItems.innerHTML = html;
+            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            cartShipping.textContent = `$${shipping.toFixed(2)}`;
+            cartTax.textContent = `$${tax.toFixed(2)}`;
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+        }
+        
+        // Add to cart
+        function addToCart(product) {
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('patrickJewelryCart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Show confirmation
+            alert(`${product.name} has been added to your cart!`);
+        }
+        
+        // Update cart item quantity
+        function updateCartItemQuantity(index, newQuantity) {
+            if (newQuantity < 1) {
+                removeFromCart(index);
+                return;
+            }
+            
+            cart[index].quantity = newQuantity;
+            localStorage.setItem('patrickJewelryCart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartPage();
+        }
+        
+        // Remove from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('patrickJewelryCart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartPage();
+        }
+        
+        // Wishlist functionality
+        function toggleWishlist(product) {
+            const existingIndex = wishlist.findIndex(item => item.id === product.id);
+            
+            if (existingIndex !== -1) {
+                wishlist.splice(existingIndex, 1);
+            } else {
+                wishlist.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image
+                });
+            }
+            
+            localStorage.setItem('patrickJewelryWishlist', JSON.stringify(wishlist));
+            updateWishlistButtons();
+        }
+        
+        function updateWishlistButtons() {
+            document.querySelectorAll('.wishlist-btn').forEach(button => {
+                const productId = button.getAttribute('data-id');
+                const isInWishlist = wishlist.some(item => item.id === productId);
+                
+                if (isInWishlist) {
+                    button.classList.add('active');
+                    button.innerHTML = '<i class="fas fa-heart"></i>';
+                } else {
+                    button.classList.remove('active');
+                    button.innerHTML = '<i class="far fa-heart"></i>';
+                }
+            });
+        }
+        
+        // Quick View Modal
+        const modal = document.getElementById('quickViewModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalAddToCart = document.getElementById('modalAddToCart');
+        const modalWishlist = document.getElementById('modalWishlist');
+        
+        function openQuickView(product) {
+            document.getElementById('modalProductImage').src = product.image;
+            document.getElementById('modalProductTitle').textContent = product.name;
+            document.getElementById('modalProductPrice').textContent = `$${product.price.toFixed(2)}`;
+            document.getElementById('modalProductDescription').textContent = product.description || 'A beautiful piece of jewelry crafted with precision and care.';
+            
+            modalAddToCart.setAttribute('data-id', product.id);
+            modalAddToCart.setAttribute('data-name', product.name);
+            modalAddToCart.setAttribute('data-price', product.price);
+            modalAddToCart.setAttribute('data-image', product.image);
+            
+            modalWishlist.setAttribute('data-id', product.id);
+            modalWishlist.setAttribute('data-name', product.name);
+            modalWishlist.setAttribute('data-price', product.price);
+            modalWishlist.setAttribute('data-image', product.image);
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        modalClose.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        modalAddToCart.addEventListener('click', function() {
+            const product = {
+                id: this.getAttribute('data-id'),
+                name: this.getAttribute('data-name'),
+                price: parseFloat(this.getAttribute('data-price')),
+                image: this.getAttribute('data-image')
+            };
+            addToCart(product);
+        });
+        
+        modalWishlist.addEventListener('click', function() {
+            const product = {
+                id: this.getAttribute('data-id'),
+                name: this.getAttribute('data-name'),
+                price: parseFloat(this.getAttribute('data-price')),
+                image: this.getAttribute('data-image')
+            };
+            toggleWishlist(product);
+        });
+        
+        // Loading Screen
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 1500);
+            
+            // Initialize cart
+            updateCartCount();
+            updateCartPage();
+            updateWishlistButtons();
+        });
+
+        // Page Navigation
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                
+                // Add loading state
+                document.body.style.pointerEvents = 'none';
+                
+                // Hide all pages
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show selected page after a small delay for smooth transition
+                setTimeout(() => {
+                    document.getElementById(pageId).classList.add('active');
+                    document.body.style.pointerEvents = 'auto';
+                    
+                    // Close mobile menu if open
+                    document.getElementById('navLinks').classList.remove('active');
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                    
+                    // Update cart page if needed
+                    if (pageId === 'cart') {
+                        updateCartPage();
+                    }
+                }, 300);
+            });
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Hero Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+        }
+        
+        // Auto slide change
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 6000);
+        
+        // Indicator click events
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Services Slider
+        let currentService = 0;
+        const serviceSlides = document.querySelectorAll('.service-slide');
+        const serviceDots = document.querySelectorAll('.service-dot');
+        const servicesTrack = document.querySelector('.services-track');
+        
+        function showService(n) {
+            serviceSlides.forEach(slide => slide.classList.remove('active'));
+            serviceDots.forEach(dot => dot.classList.remove('active'));
+            
+            currentService = (n + serviceSlides.length) % serviceSlides.length;
+            
+            serviceSlides[currentService].classList.add('active');
+            serviceDots[currentService].classList.add('active');
+            servicesTrack.style.transform = `translateX(-${currentService * 100}%)`;
+        }
+        
+        // Auto service slide change
+        setInterval(() => {
+            showService(currentService + 1);
+        }, 5000);
+        
+        // Service dot click events
+        serviceDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showService(index);
+            });
+        });
+
+        // Product Card Animation on Scroll
+        const productCards = document.querySelectorAll('.product-card');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        productCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Generate products for each category
+        function generateProducts(category, count) {
+            const productsGrid = document.getElementById(`${category}-products`);
+            if (!productsGrid) return;
+            
+            const productData = {
+                necklaces: [
+                    { name: "Marquise Flower Diamond Station Necklace", price: 43258, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/f4b04d1e46490ba0ed4051786a82d9b8.jpg", rating: 4.5, reviews: 42, description: "This PatrickJewelryco Marquise Flower Diamond Necklace is made of 14K Yellow gold with 36.10ctw of diamonds. This necklace is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Raised Prong Cuban Diamond Necklace", price: 35200, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/fc70c7731b66c38a5770a68cbddd35a1.jpg", rating: 4.0, reviews: 28, description: "This PatrickJewelryco 22mm Raised Prong Miami Cuban Link Necklace is made of 14K White gold with 73.25ctw of diamonds. This necklace is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Cuban Link Diamond Necklace 14k Solid Gold ", price: 31000, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/767d94349ee117eaf5b0c1faedbf2420.jpg", rating: 5.0, reviews: 56, description: "This PatrickJewelryco 24mm Miami Cuban Link Necklace is made of 14K Yellow gold with 71.75ctw of diamonds. This necklace is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Heart Infinity Link Diamond Necklace 14k Solid Gold", price: 24728, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/5c98faed3ac9b7a236a2529e997bb87d.jpg", rating: 4.5, reviews: 37, description: "This PatrickJewelryco Heart Infinity Necklace is made of 14K White gold with 28.45ctw of diamonds. This necklace is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Baguette and Round Diamond Infinty Neclace", price: 13999, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/240418bcd27b267ead5b187b847a5222.jpg", rating: 4.0, reviews: 19, description: "This PatrickJewelryco Baguette Infinity Necklace is made of 14K White gold with 28.30ctw of diamonds. This necklace is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Mariner Link Diamond Chain 14k Solid Gold", price: 14750, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/8d0cdfc6d5027a78e0e51ccb8e663485.jpg", rating: 4.5, reviews: 31, description: "This PatrickJewelryco 18mm Mariner Link Necklace is made of solid 14K White gold and is 25.8mm thick. You may choose your desired length in the dropdown. This necklace is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Round & Bagquette Rectangle Diamond Nacklace", price: 12100, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/2bf24e3577a60e1f943ae8c993080f47.jpg", rating: 5.0, reviews: 24, description: "This PatrickJewelryco Round & Baguette Rectangle Link Necklace is made of 14K Yellow gold. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter using the highest quality craftsmanship. This piece is made of solid gold." },
+                    { name: "Rolo Beaded Diamond Necklace 14k Solid Gold", price: 10890, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/d2b00e6c7f47dab973dd6c35da193f48.jpg", rating: 4.0, reviews: 45, description: "This PatrickJewelryco Rolo Beaded Diamond Necklace is made of 14K Yellow gold with 30.00ctw of diamonds. This necklace is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." }
+                ],
+                bracelets: [
+                    { name: "2 Row Bagquette & Round Diamond Bracelet 14k Solid Gold", price: 37050, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/9ff59e84b425a2bef49c0c5df8bcf09e.jpg", rating: 4.0, reviews: 28, description: "This PatrickJewelryco 2 Row Baguette & Round Bracelet is made of 14K Yellow gold. This Bracelet is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Beaded Marquise Flower Rolo Bracelet 14k Solid Gold", price: 16325, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/ff7045a51bbf926fa91a78aca3457ef5.jpg", rating: 4.5, reviews: 37, description: "This PatrickJewelryco Rolo Flower Bracelet is made of 14K Yellow gold with 14.5ctw of diamonds. This Bracelet is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Baguette and Round Diamond Link Bracelet 14k Solid Gold", price: 69513, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/f25d3c2e468964635e5f835ccf812fd4.jpg", rating: 5.0, reviews: 42, description: "This PatrickJewelryco Baguette Link Bracelet is made of 14K White gold with 16.75ctw of diamonds. This Bracelet is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Diamond Infinity Line Bracelet Solid Gold", price: 48638, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/ba644af11d8cc51d00b9575ffe558a7d.jpg", rating: 4.0, reviews: 33, description: "This PatrickJewelryco Infinity Line Bracelet is made of 10K Yellow gold with 10.85ctw of diamonds. This Bracelet is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Multi Shaoe Diamond Tennis Bracelt 14k Solid Gold", price: 37800, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/68c5a4d83271b0d3c5dbd7c466234106.jpg", rating: 4.5, reviews: 29, description: "This PatrickJewelryco Multi Shape Bracelet is made of 14K White gold with 8.60ctw of diamonds. This Bracelet is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Ruby Diamond Marquise Flower Infinity Bracelet Solid Gold", price: 40988, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/43c8dcfbd2cfc7c1b008ada1f5e43c7d.jpg", rating: 4.0, reviews: 18, description: "This PatrickJewelryco Marquise Ruby Link Bracelet is made of 10K Yellow gold with 19.60ctw of diamonds. This Bracelet is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Six Row Split Diamond Flex Bangle Bracelet", price: 13546, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/0f6deeeaef74fd518b6bb35ae2db9df8.jpg", rating: 4.5, reviews: 52, description: "This PatrickJewelryco 6 Row Split Flex Bracelet is made of 14K Yellow gold with 7.05ctw of diamonds. This Bracelet is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." },
+                    { name: "Miami Cuban 14k Solid Gold", price: 31850, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/9c71894d81a70c4b4da65649c40a60a9.jpg", rating: 5.0, reviews: 41, description: "This PatrickJewelryco Miami Cuban Bracelet is made of solid 14K Yellow gold and is 18mm thick. This Bracelet is manufactured in the highest quality to PatrickJewelryco standards. Items ship free with insured delivery, guaranteed to your door. An adult signature is required." }
+                ],
+                earrings: [
+                    { name: "One Row Diamond Hoop Earrings 14k Solid Gold", price: 18650, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/69cb62322a620ae639cbb896c7b4704b.jpg", rating: 5.0, reviews: 56, description: "These PatrickJewelryco 20pt Hoop earrings are made of 14K White gold. These pieces are handcrafted and manufactured by PatrickJewelryco. All of the diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. These pieces are made of solid gold. " },
+                    { name: "Diamond Uneven inside-outside Hoop Earrings", price: 51200, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/5c9a2ffc24980970a96d54995c0e797a.jpg", rating: 4.5, reviews: 42, description: "These PatrickJewelryco Uneven Inside Outside hoops earrings are made of 14K White gold. These pieces are handcrafted and manufactured by PatrickJewelryco. All of the diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. These pieces are made of solid gold." },
+                    { name: "Plain Hoops Dangling Diaamong Cross Earrings", price: 20480, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/f0909d64ab564c1be19ede39ce45b27c.jpg", rating: 4.0, reviews: 38, description: "These PatrickJewelryco Dangling Cross Hoop earrings are made of 14K White gold. These pieces are handcrafted and manufactured by PatrickJewelryco. All of the diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. These pieces are made of solid gold." },
+                    { name: "25PT Diamond Inside Outside Hoop Earrings", price: 32890, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/abfa52180e2d2847960ea627d9d9359b.jpg", rating: 4.5, reviews: 27, description: "These PatrickJewelryco 26pt Inside Outside earrings are made of 14K Yellow gold. These pieces are handcrafted and manufactured by PatrickJewelryco. All of the diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. These pieces are made of solid gold." },
+                    { name: "Open Marquise Diamond Post Hoop Earrings 3.45CTW", price: 21100, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/26ed75e6ae3ab2160fdd782db56a18a5.jpg", rating: 4.0, reviews: 22, description: "These PatrickJewelryco Open Marquise earrings are made of 14K White gold. These pieces are handcrafted and manufactured by PatrickJewelryco. All of the diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. These pieces are made of solid gold." },
+                    { name: "20PT Inside Outside Diamondd Hoop Earrings 4.80CTW", price: 32750, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/d723034e0510dcbceefcb78caa811f7e.jpg", rating: 4.5, reviews: 35, description: "These PatrickJewelryco 20pt Inside Outside Hoop earrings are made of 14K Yellow gold. These pieces are handcrafted and manufactured by PatrickJewelryco. All of the diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. These pieces are made of solid gold." },
+                    { name: "Diamond Gypsy Scattered Hoop Earrings Solid Gold 2.60CTW", price: 19657, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/2b7177999523c0ebf7aec342d102c2b0.jpg", rating: 4.0, reviews: 44, description: "These PatrickJewelryco Gypsy Set Hoop earrings are made of 14K Yellow gold. These pieces are handcrafted and manufactured by PatrickJewelryco. All of the diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. These pieces are made of solid gold." },
+                    { name: "Diamond Bagquette andd Round Hoop earrings 2.80CTW", price: 12638, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/bf9534108d8ea455dee97fb08e409e96.jpg", rating: 5.0, reviews: 39, description: "These PatrickJewelryco Baguete and Round Hoops earrings are made of 14K White gold. These pieces are handcrafted and manufactured by PatrickJewelryco. All of the diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. These pieces are made of solid gold. " }
+                ],
+                rings: [
+                    { name: "Tripp - 3.00CT Emerald Solitaire Diamond Wedding Ring", price: 22800, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/85a8a43df84ecf86a3761919f001f7fd.jpg", rating: 4.5, reviews: 37, description: "This PatrickJewelryco Emerald Solitaire Three Row is made of 14K White gold with 4.50ctw of diamonds. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. This piece is made of solid gold." },
+                    { name: "3.00CT Emerald Solitaire Diamond Wedding Ring", price: 31200, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/275a37ea35720210b20bca17cfc5fb0f.jpg", rating: 4.0, reviews: 28, description: "This PatrickJewelryco Emerald Solitaire Single Row Scallop is made of 14K White gold with 4.00ctw of diamonds. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. This piece is made of solid gold." },
+                    { name: "3.00CT Round Solitaire - Flower Petal Halo Diamond Engament Ring", price: 19450, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/f6160ddbdae295fd639cb330f6e940c8.jpg", rating: 4.5, reviews: 41, description: "This PatrickJewelryco Round Solitaire Flower Petal Halo is made of 14K White gold with 3.75ctw of diamonds. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. This piece is made of solid gold." },
+                    { name: "Super Dollar Diamond Ring Solid Gold 9.25CTW", price: 19950, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/f519bc897beecad18158fc862f4994ca.jpg", rating: 5.0, reviews: 33, description: "This PatrickJewelryco Super Dollar Signet Ring is made of 14K Yellow gold. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. This piece is made of solid gold." },
+                    { name: "Deluxe Baguette Border Diamond Ring 9.00CTW", price: 18680, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/5617078d27368625ed506e3f8eeeee6a.jpg", rating: 4.0, reviews: 25, description: "This PatrickJewelryco Deluxe Cross Signet Ring is made of 14K Yellow gold. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. This piece is made of solid gold." },
+                    { name: "Tripp - 3.00CT Princess Diamond Engagement Ring", price: 21750, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/83c73c4b7561b1a99782926ac1731b5d.jpg", rating: 4.5, reviews: 19, description: "This PatrickJewelryco Princess Solitaire Three Row is made of 14K White gold with 4.50ctw of diamonds. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. This piece is made of solid gold." },
+                    { name: "Round Gypsy Baguette Diamond Signet Ring 6.15CTW", price: 19320, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/40905dfb84934d6f4048324536373fd8.jpg", rating: 4.0, reviews: 47, description: "This PatrickJewelryco Gypsy Signet Ring is made of 10K Yellow gold. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. This piece is made of solid gold." },
+                    { name: "Super Star Diamond Ring Solid Gold 7.25CTW", price: 12100, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/f3933c30ad724718e232a5bcc5100c3d.jpg", rating: 5.0, reviews: 30, description: "This PatrickJewelryco Super Star Ring is made of 14K Yellow gold. This piece is handcrafted and manufactured by PatrickJewelryco. The diamonds are hand-set by a master diamond setter in the highest quality craftsmanship. This piece is made of solid gold." }
+                ],
+                "mens-jewelry": [
+                    { name: "Zahir - Patek Philippe - Nautilus Tiffany Stamped - 5711/1r-001 - My2021 - Rose Gold - [000083]", price: 607500, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/deb1ed3ed3bad4a956e10849588ac970.jpg", rating: 4.0, reviews: 52, description: "This item will be shipped with insurance & signature required." },
+                    { name: "Audemars Piguet - Millenary Baguette Tourbillon - 26381or.zz.d102cr.01 - Rose Gold - [070713]", price: 513105, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/245c2bec24a12fa5d852df8362f5bf44.png", rating: 4.5, reviews: 38, description: "This item will be shipped with insurance & signature required." },
+                    { name: "Audemars Piguet Royal Oak 18kr Skeleton Custom Dia 15407or.oo.1220or.01", price: 406238, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/4f21145f2b57703b67c153d460098535.jpg", rating: 4.0, reviews: 45, description: "This watch comes with a 12 month Icebox warranty.  This watch has been customized with aftermarket diamonds and does not have a manufacturer's warranty." },
+                    { name: "Audemars Piguet - Royal Oak 39MM - 16204ba - My2023 - Yellow Gold - [002032]", price: 367500, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/0a93defaf82d420fdbcef11a559e6d6e.png", rating: 4.5, reviews: 27, description: "This item will be shipped with insurance & signature required." },
+                    { name: "Vacheron Constantin - Overseas Perpetual Calendar Ultra Thin - 4300v/120g - White Gold", price: 195000, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/6eb9667be5c9afff1922d2e9f59152c5.png", rating: 4.0, reviews: 63, description: "This item will be shipped with insurance & signature required." },
+                    { name: "Audemars Piguet Ss 21 7/8ctw Fg/Vs-Aaa Black/white Diamonds Custom Dia (??) Serial Tm3328f W/card", price: 121125, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/8711a3ed0a43d09b18cc160f134ae883.jpg", rating: 4.5, reviews: 34, description: "This watch will ship in 1 day" },
+                    { name: "Audemars Piguet Royal Oak Ss 18.48ctw Fg/vs Chrono White Dial - Nc", price: 116250, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/ca248cb603a3a695cc256d62e5438d5c.jpg", rating: 4.0, reviews: 29, description: "PatrickJewelryco is not associated with the Audemars Piguet brand" },
+                    { name: "Audemars Piguet Royal Oak Offshore - Ss 24.94ctw - Nc", price: 117000, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/2fa05afa2b291ef9c4e3b8dbe63135f4.jpg", rating: 5.0, reviews: 41, description: "This watch comes with a 12 month Icebox warranty.  This watch has been customized with aftermarket diamonds and does not have a manufacturer's warranty." }
+                ],
+                "luxury-sets": [
+                    { name: "Custom Design Deposit", price: 1000, image: "https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_7.webp", rating: 5.0, reviews: 28, description: "Solid 14K Gold, VS Diamonds, Consultation" },
+                    { name: "Custom Design Deposit", price: 1000, image: "https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-gallery_1.webp", rating: 4.5, reviews: 35, description: "Solid 14K Gold, VS Diamonds, Consultation" },
+                    { name: "Custom Design Deposit", price: 1000, image: "https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-gallery_2.webp", rating: 4.0, reviews: 22, description: "Solid 14K Gold, VS Diamonds, Consultation" },
+                    { name: "Custom Design Deposit", price: 1000, image: "https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-gallery_5.webp", rating: 4.5, reviews: 19, description: "Solid 14K Gold, VS Diamonds, Consultation" },
+                    { name: "Custom Design Deposit", price: 1000, image: "https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_6.webp", rating: 5.0, reviews: 26, description: "Solid 14K Gold, VS Diamonds, Consultation" },
+                    { name: "Custom Design Deposit", price: 1000, image: "https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_5.webp", rating: 4.0, reviews: 31, description: "Solid 14K Gold, VS Diamonds, Consultation" },
+                    { name: "Custom Design Deposit", price: 1000, image: "https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_3.webp", rating: 4.5, reviews: 17, description: "Solid 14K Gold, VS Diamonds, Consultation" },
+                    { name: "Custom Design Deposit", price: 1000, image: "https://www.icebox.com/themes/default/frontend/oct-2023/assets/custom/cst-media_4.webp", rating: 5.0, reviews: 23, description: "Solid 14K Gold, VS Diamonds, Consultation" }
+                ],
+                "new-arrivals": [
+                    { name: "Rose Gold Diamond Ring", price: 1850, image: "https://images.unsplash.com/photo-1636140840637-27abbf311e69?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", rating: 4.5, reviews: 12, description: "Modern rose gold ring with a brilliant cut diamond." },
+                    { name: "Art Deco Necklace", price: 1250, image: "https://images.unsplash.com/photo-1581281863883-2469417a1668?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", rating: 5.0, reviews: 8, description: "Vintage-inspired art deco necklace with geometric patterns." },
+                    { name: "Modern Pearl Earrings", price: 750, image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", rating: 4.0, reviews: 15, description: "Contemporary pearl earrings with an innovative design." },
+                    { name: "Vintage Inspired Bracelet", price: 920, image: "https://images.unsplash.com/photo-1588444650700-6c7f0c89d36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", rating: 4.5, reviews: 11, description: "Vintage-inspired bracelet with intricate detailing." },
+                    { name: "Contemporary Men's Ring", price: 680, image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", rating: 4.0, reviews: 9, description: "Modern men's ring with a unique architectural design." },
+                    { name: "Geometric Gold Necklace", price: 1100, image: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", rating: 5.0, reviews: 7, description: "Contemporary geometric gold necklace with clean lines." },
+                    { name: "Sapphire Cluster Earrings", price: 1350, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", rating: 4.5, reviews: 10, description: "Cluster earrings featuring multiple sapphires in a floral arrangement." },
+                    { name: "Minimalist Diamond Band", price: 950, image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", rating: 4.0, reviews: 13, description: "Sleek minimalist diamond band with a modern aesthetic." }
+                ],
+                shop: [
+                    { name: "2.50ct - Round Solitaire - Diamond Engagement Ring - All Natural", price: 8250, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/042ae7dbf0934cbdf014da5f871716dc.jpg", rating: 4.5, reviews: 42, description: "A masterpiece of timeless elegance, this 2.50 carat solitaire diamond engagement ring commands attention with its breathtaking brilliance." },
+                    { name: "1.00ct Round Solitaire - Double Twist Halo -diamond Engagement Ring - All Natural", price: 10125, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/a731a65518b217737958a69077b04f93.jpg", rating: 4.0, reviews: 28, description: "A unique expression of love, this Icebox diamond engagement ring features a sparkling round center stone enveloped in a double halo of VS diamonds." },
+                    { name: "Round Halo Wide Engagement Ring 1.50ctw", price: 10088, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/6ba0258d5d307a880fa53c999dcfc346.jpg", rating: 5.0, reviews: 56, description: "Showcasing 1.50ctw dazzling diamonds, the wide-band ring will sweep her off of her feet with glittering diamonds and a high polish finish in all directions." },
+                    { name: "Double Halo White And Pink Diamond Engagement Ring - All Natural - 1.80ctw", price: 9188, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/d1ca9bb617ed948a072c8ebd6609852d.jpg", rating: 4.5, reviews: 37, description: "This stunning diamond engagement ring is a bold expression of brilliance and love." },
+                    { name: "1.00ct Round Solitaire - Milgrain Halo Ring - Engagement Ring - Natural Diamonds", price: 6750, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/abdddc36b06d357a897fccf5eab60bbc.jpg", rating: 4.0, reviews: 52, description: "A beautiful round halo engagement ring with Old World glamour." },
+                    { name: "1.15ctw Halo Square Cluster Diamond Engagement Ring - All Natural - 14k Solid Gold", price: 5738, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/638b39b033bbdbc174dbdb7b9afb470e.jpg", rating: 5.0, reviews: 28, description: "A stunning cluster of diamonds shine brilliantly at the center of this gorgeous Icebox diamond engagement ring." },
+                    { name: "Double Halo Split Shank Diamond Engagement Ring - All Natural - 14k Solid Gold - 1.05ctw", price: 5138, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/de4f6edd9a40646baac57b9590ce0a13.jpg", rating: 4.5, reviews: 12, description: "This dazzling diamond engagement ring features a dazzling 0.30ct center diamond." },
+                    { name: "Geometric Double Halo Split Shank Diamond Ring 14k Solid Gold 0.95ctw", price: 4575, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/bc3b1ee39dbc72cf3dd9484cb4f8c68d.jpg", rating: 5.0, reviews: 8, description: "The round center is framed by two shimmering halos that magnify its brilliance, while a split shank lined with diamonds completes the design." }
+                ],
+                featured: [
+                    { name: "Cartier Santos Tank Anglaise 18kr/ss - Nc", price: 9375, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/dc3b7e37b04cabc83b5f8214f477bee1.jpg", rating: 4.5, reviews: 42, description: "PatrickJewelryco is not associated with the Cartier brand" },
+                    { name: "Audemars Piguet Royal Oak Ss (2024) - Wc", price: 78000, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/71b05cb3c231200a255dbfb38c722eb8.jpg", rating: 4.0, reviews: 28, description: "PatrickJewelryco is not associated with the Audemars Piguet brand" },
+                    { name: "Hublot - Classic Fusion Ceramic Blue - Ceramic [565.cm.7170.rx]", price: 12225, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/67fd4d92b0af196c0a9a1aefd031b32f.jpg", rating: 5.0, reviews: 56, description: "PatrickJewelryco is not associated with the Hublot brand" },
+                    { name: "Cartier Ballon Bleu 26MM Stainless Steel - Nc", price: 5400, image: "https://image.icebox.com/unsafe/600x0/filters:format(webp)/icebox-jewelry.s3.amazonaws.com/products/882d8efdc25cc3d87dca4f8cf11a10a9.jpg", rating: 4.5, reviews: 37, description: "PatrickJewelryco is not associated with the Cartier brand" }
+                ]
+            };
+            
+            const products = productData[category] || productData.featured;
+            
+            let html = '';
+            products.forEach((product, index) => {
+                const productId = `${category}-${index}`;
+                const stars = Array(5).fill(0).map((_, i) => {
+                    if (i < Math.floor(product.rating)) {
+                        return '<i class="fas fa-star"></i>';
+                    } else if (i === Math.floor(product.rating) && product.rating % 1 !== 0) {
+                        return '<i class="fas fa-star-half-alt"></i>';
+                    } else {
+                        return '<i class="far fa-star"></i>';
+                    }
+                }).join('');
+                
+                html += `
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="${product.image}" alt="${product.name}" class="product-img">
+                            <div class="product-actions">
+                                <button class="wishlist-btn" data-id="${productId}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="product-action-btn quick-view-btn" data-id="${productId}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" data-description="${product.description}">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                                <button class="product-action-btn add-to-cart-btn" data-id="${productId}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-rating">
+                                ${stars}
+                                <span>(${product.reviews})</span>
+                            </div>
+                            <p class="product-price">$${product.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            productsGrid.innerHTML = html;
+            
+            // Add event listeners to add to cart buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const product = {
+                        id: this.getAttribute('data-id'),
+                        name: this.getAttribute('data-name'),
+                        price: parseFloat(this.getAttribute('data-price')),
+                        image: this.getAttribute('data-image')
+                    };
+                    addToCart(product);
+                });
+            });
+            
+            // Add event listeners to wishlist buttons
+            document.querySelectorAll('.wishlist-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const product = {
+                        id: this.getAttribute('data-id'),
+                        name: this.getAttribute('data-name'),
+                        price: parseFloat(this.getAttribute('data-price')),
+                        image: this.getAttribute('data-image')
+                    };
+                    toggleWishlist(product);
+                });
+            });
+            
+            // Add event listeners to quick view buttons
+            document.querySelectorAll('.quick-view-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const product = {
+                        id: this.getAttribute('data-id'),
+                        name: this.getAttribute('data-name'),
+                        price: parseFloat(this.getAttribute('data-price')),
+                        image: this.getAttribute('data-image'),
+                        description: this.getAttribute('data-description')
+                    };
+                    openQuickView(product);
+                });
+            });
+            
+            // Update wishlist buttons
+            updateWishlistButtons();
+        }
+
+        // Generate products for each category when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const categories = ['necklaces', 'bracelets', 'earrings', 'rings', 'mens-jewelry', 'luxury-sets', 'new-arrivals', 'shop', 'featured'];
+            categories.forEach(category => {
+                generateProducts(category, 8);
+            });
+        });
+    </script>
+</body>
+</html>
